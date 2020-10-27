@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -32,7 +33,13 @@ public class Main {
 		    Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon/chat-2-icon (1).png"));
 		    ActionListener listener = new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
-		            System.exit(0);
+		        	try {
+						OpenChat.disconnect();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		        	System.exit(0);
 		        }
 		    };
 		    

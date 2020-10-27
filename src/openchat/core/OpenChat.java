@@ -14,6 +14,10 @@ import javax.swing.UIManager;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class OpenChat extends JFrame {
 
@@ -24,7 +28,6 @@ public class OpenChat extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					OpenChat frame = new OpenChat();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -35,9 +38,15 @@ public class OpenChat extends JFrame {
 	}
 
 	public OpenChat() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				setVisible(false);
+			}
+		});
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(OpenChat.class.getResource("/openchat/core/icon/chat-2-icon.png")));
 		setTitle("OpenChat - Client");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -47,10 +56,21 @@ public class OpenChat extends JFrame {
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Exit");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem_1);
 		
 		JMenu mnNewMenu_1 = new JMenu("Connection");
 		menuBar.add(mnNewMenu_1);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Connect To Server");
+		mnNewMenu_1.add(mntmNewMenuItem_2);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Disconnect From Server");
+		mnNewMenu_1.add(mntmNewMenuItem_3);
 		
 		JMenu mnNewMenu_2 = new JMenu("Servers");
 		menuBar.add(mnNewMenu_2);

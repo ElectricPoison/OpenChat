@@ -10,12 +10,15 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 public class Main {
 
 	public static TrayIcon trayIcon;
 	public static OpenChat openChat = new OpenChat();
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		new Main().openProgram();
 	}
 	
@@ -25,11 +28,8 @@ public class Main {
 
 		trayIcon = null;
 		if (SystemTray.isSupported()) {
-		    // get the SystemTray instance
 		    SystemTray tray = SystemTray.getSystemTray();
-		    // load an image
 		    Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon/chat-2-icon (1).png"));
-		    // create a action listener to listen for default action executed on the tray icon
 		    ActionListener listener = new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
 		            System.exit(0);
@@ -41,9 +41,7 @@ public class Main {
 		        	openChat.setVisible(true);
 		        }
 		    };
-		    // create a popup menu
 		    PopupMenu popup = new PopupMenu();
-		    // create menu item for the default action
 		    MenuItem defaultItem = new MenuItem("Quit");
 		    defaultItem.addActionListener(listener);
 		    
@@ -53,19 +51,15 @@ public class Main {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					openChat.setVisible(true);
+					
 				}
 			});
 		    
 		    
 		    popup.add(openItem);
 		    popup.add(defaultItem);
-		    /// ... add other items
-		    // construct a TrayIcon
 		    trayIcon = new TrayIcon(image, "OpenChat", popup);
-		    // set the TrayIcon properties
 		    trayIcon.addActionListener(listener2);
-		    // ...
-		    // add the tray image
 		    try {
 		        tray.add(trayIcon);
 		    } catch (AWTException e) {
